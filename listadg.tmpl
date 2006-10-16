@@ -1,0 +1,226 @@
+/*
+ *  gpppkill. X11/GTK+ program that kill pppd if it not recive a minimal amount 
+ *  of bytes during certain time. It also plot the amount bytes/seg recived.
+ *  Copyright (C) 1998  Oliver Schulze L.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  
+ *  You can reach the author at: 
+ *    oliver@pla.net.py
+ *
+ *  gpppkill Home Page:
+ *    http://www.pla.net.py/home/oliver/gpppkill/
+ *  
+ *  A copy of the GNU General Public License is included with this program.
+ */
+#ifndef _LISTADG_OSL_TMPL_
+#define _LISTADG_OSL_TMPL_
+
+#include "listadg.h"
+
+//############################# Class nododg ###################################
+//------------------------------------------------------------------------------
+/*
+ *	Constructor de la clase nodo.
+ *	Aqui se inicializan todas las variables a cero o NULL.
+ */
+template <class T> nododg<T>::nododg()
+{
+	sigte=NULL;
+	anterior=NULL;
+
+	if(DEBUG_LISTADG)
+		cout << "Constructor  nododg()\n";  	
+}
+
+/*
+ *	Destructor, lo uso para debug. Para ver si se eliminana todos los nodos
+ */
+template <class T> nododg<T>::~nododg()
+{
+	if(DEBUG_LISTADG) 
+		cout << "nododg borrado" << endl;
+}
+
+template <class T> nododg<T> nododg<T>::operator=(nododg<T> n)
+{
+	nododg<T> tmp;
+
+	data = n.data;
+	tmp.data = n.data;
+
+	return tmp;
+}
+
+//############################# Class listadg ###################################
+//------------------------------------------------------------------------------
+/*
+ *	Constructor de la clase listadg.
+ *	Se inicializan los punteros de la lista a NULL,
+ *		que es la condicion de listadg vacia.
+ */
+template <class T> listadg<T>::listadg()
+{
+	inicio=NULL;
+	final=NULL;
+
+	if(DEBUG_LISTADG)
+		cout << "Constructor listadg()\n";
+}
+
+/*------------------------------------------------------------------------------
+ *	Destructor de la clase listadg.
+ */
+template <class T> listadg<T>::~listadg()
+{
+	borrar_listadg();
+
+	if(DEBUG_LISTADG)
+		cout << "Destructor listadg()\n";
+}
+
+//------------------------------------------------------------------------------
+/*
+ *	Agrega un T al final de la lista.
+ *	Actualiza los puntero se hace falta.
+ */
+template <class T> void listadg<T>::agregar_nodo(nododg<T> *p)
+{
+	if(inicio == NULL)  //primer elemento en la lista
+		inicio = final = p;
+	else {
+		p->anterior = final;
+		final->sigte = p;
+		final = p;
+	}
+}
+
+//------------------------------------------------------------------------------
+/*	
+ *	Borra un elemento de la lista
+ *		y actualiza 'listadg::inicio' y 'listadg::final'.
+ */
+template <class T> void listadg<T>::borrar_nodo(nododg<T> *p)
+{
+	if(p->anterior) { 
+		if(p->sigte) {  //si esta en el medio
+			p->anterior->sigte = p->sigte;
+			p->sigte->anterior = p->anterior;
+			p->sigte = p->anterior = NULL;
+		}
+		else { //es el ultimo elemento
+			p->anterior->sigte = NULL;
+			final = p->anterior;
+			p->anterior = NULL;
+		}
+	}
+	else { //es el primero
+		if(p->sigte) { //hay mas de un elemento
+			p->sigte->anterior = NULL;
+			inicio = p->sigte;
+			p->sigte = NULL; //no necesario
+		}
+		else  //es el unico elemento
+			inicio = final = NULL;
+	}
+	if(p)
+		delete p;
+	else
+		printf("listadg :: borrar(): tratando de borrar un puntero a NULL\n");
+}
+
+/*------------------------------------------------------------------------------
+ */
+template <class T> void listadg<T>::agregar(T nuevo)
+{
+	nododg<T> *n;
+
+	n = new nododg<T>();
+	if(!n) {
+		perror("dlista::agragar():\nNO memory for new()\n");
+		exit(1);
+	}
+
+	n->data = nuevo;
+
+	agregar_nodo(n);
+}
+
+/*------------------------------------------------------------------------------
+ *	Borra todos los nodos de la listadg.
+ *	Actualiza los punteros de la lista a la condicion "vacia".
+ */
+template <class T> void listadg<T>::borrar_listadg()
+{
+	nododg<T> *n;
+	
+	n = inicio;
+	
+	if(n) { 					//si hay algun elemento
+		while(n->sigte) {
+			n = n->sigte;         //paso al sigte
+			if(n->anterior)
+				delete (n->anterior);  //borro el anterior
+			else
+				printf("listadg::borrar_listadg(): tratando de borrar un puntero a NULL");
+		};
+		if(n)
+			delete n;   //borro el ultimo
+		else
+			printf("listadg::borrar_listadg(): tratando de borrar un puntero a NULL");
+	}
+	
+	inicio = final = NULL;
+}
+
+/*------------------------------------------------------------------------------
+ *	Retorna el numero de elementos que hay en la listadg.
+ *	return:
+ *		0 -> no hay elementos.
+ *	 >0 -> el numero de elementos.
+ */
+template <class T> int listadg<T>::get_numero_de_elementos(void)
+{
+	int num;
+	nododg<T> *n;
+	
+	num = 0;
+	n   = inicio;
+	
+	while(n) {
+		num++;
+		n = n->sigte;
+	};
+	
+	return num;
+}
+
+/*------------------------------------------------------------------------------
+ *	Retorna el la direccion del nodo apuntado por listadg::inicio.
+ */
+template <class T> nododg<T> *listadg<T>::get_inicio()
+{
+	return inicio;
+}
+
+/*------------------------------------------------------------------------------
+ *	Retorna la direccion del T apuntado por listadg::final .
+ */
+template <class T> nododg<T> *listadg<T>::get_final()
+{
+	return final;
+}
+
+#endif

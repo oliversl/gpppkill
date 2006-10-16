@@ -1,0 +1,68 @@
+This document present information about this topics:
+----------------------------------------------------
+Index
+-----
+ 1. System requirement
+ 2. Compilation instruccions
+ 3. Instalation
+ 4. UnInstalation
+	
+--------------------------------------------------------------------------------
+
+1. System requierement
+----------------------
+ gpppkill was developed and tested with:
+	linux 2.2.13
+	gtk+  1.2.5
+	egcs  1.1.2
+	glibc 2.1.2 (libc 6 under Linux)
+
+ rpm package version:
+  RedHat 6.1
+  gtk+-1.2.5-2
+  gtk+-devel-1.2.5-2
+  glib-1.2.5-1
+  glib-devel-1.2.5-1
+  egcs-1.1.2-24
+  glibc-2.1.2-11
+
+2. Compilation instruccions
+---------------------------
+ RedHat 6.x
+	You can build a rpm version from the tar.gz file with:
+  # rpm -ta gpppkill-1.0.2.tar.gz
+	Or compile manually with:
+	$ make
+
+ Debian 2
+  Edit the Makefile. (Need Debian feedback)
+  Comment the RedHat setting and uncomment the Debian setting.
+  Then, type:
+	$ make
+
+3. Instalation
+--------------
+ If you created a rpm in the step 2, do a:
+  # rpm -ivh /usr/src/redhat/RPMS/i386/gpppkill-1.0.2-1.i386.rpm
+
+ Otherwise, to install to '/usr/X11R6/bin/' type:
+	# make install
+
+4. UnInstalation
+----------------
+ RedHat rpm uninstalation:
+  # rpm -ev gpppkill
+
+ To uninstall the manually installed files just type:
+	# make uninstall
+
+Contact info:
+-------------
+ gpppkill Home page:
+  http://www.pla.net.py/home/oliver/gpppkill/
+
+ My e-mail:
+  oliver@pla.net.py
+
+Have fun!
+Oliver

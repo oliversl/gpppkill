@@ -1,7 +1,6 @@
 # gpppkill Makefile
 # 
 # Use DESTDIR when installing to another prefix directory
-# test2
 
 # Redhat 6.x
 CC	= g++

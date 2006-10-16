@@ -1,0 +1,84 @@
+gpppkill Readme
+- -------------
+
+Index:
+- ----
+ Description
+ Features
+ Configuration file
+ Install
+ gpppkill Home Page
+ Copyright
+ How you can help
+
+--------------------------------------------------------------------------------
+
+Description:
+- ----------
+gpppkill is a X11 program for Linux that finishes the ppp connection if it 
+not receive a minimal amount of bytes during certain time.
+It draw a dynamic bar plot showing the ppp link traffic. 
+It is writing in C++ and using the GTK+ X11 toolkit.
+
+Features:
+- -------
+*Graph:
+  + Shows a dynamic bar plot according to the amount of bytes received per 
+    second
+  + Shows a dynamic bar plot according to the amount of bytes sended per second
+  + Shows a bar plot according to the amount of bytes sended/received per second
+*Statistics of the pppd connection:
+  + bytes received per second.
+  + bytes sent per second.
+  + total of bytes sent.
+  + total of byte received.
+  + Average of 'bytes in' in the las minute (Kb/sec)
+  + Average of 'bytes out' in the las minute (Kb/sec)
+  + Average of 'total bytes in' (Total_Kbytes_in/uptime)
+  + Average of 'total bytes out' (Total_Kbytes_out/uptime)
+*pppkill info:
+  + idletime  : finishes the ppp connection if it not receive a minimal 
+                amount of bytes during certain time.
+  + onlinetime: finishes the ppp connection if it reach the maximal 
+                online time limit.
+*Information of the ppp connection:
+   + number of process ID (PID).
+   + name of the interface.
+   + uptime of the connection.
+*StatusBar
+   + in replace of quickmessage
+*Pop-Up menu (right button of mouse to activate).
+*Possibility of hiding the modules that are not wanted to see.
+*Detects all the running pppd and let you choose which to kill.
+*Save the preferences to ~/.gpppkillrc. Including the window position.
+*You can specify the width of the bars in the bar plot.
+
+Configuration file:
+- -----------------
+gpppkill save a rc file in your home directory.
+The file is named "~/.gpppkillrc".
+All information in this rcfile can be changed in gpppkill.
+
+Install:
+- ------
+Please refer to the INSTALL file.
+
+gpppkill Home Page:
+- -----------------
+  http://www.pla.net.py/home/oliver/gpppkill/
+
+Copyright:
+- --------
+Licenced under the GPL
+(C)1998-1999-2000 Oliver Schulze L. <oliver@pla.net.py>
+Read the file 'GPL-LICENSE' for more information.
+
+How you can help
+- --------------
+- Try gpppkill in diferent Linux distributions
+- Please send bugs and suggestion to: oliver@pla.net.py
+
+Linux Rulz! ;-)
+
+Oliver
+10-Set-2000

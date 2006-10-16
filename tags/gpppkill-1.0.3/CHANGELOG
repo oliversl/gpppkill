@@ -1,0 +1,90 @@
+gpppkill (not tecnical) ChangeLog
+- -------------------------------
+
+Texts at the biginning of the file are newer.
+Last updated: Mon Sep 11 02:03:56 UTC 2000
+
+From 1.0.2 to 1.0.3
+- -----------------
+- Use of the ESC key as the equivalent of closing the warning window.
+- When you see the (warning) window before gpppkill ends the link, the default
+  button now is "Restart" and not "Kill". Suggested by Ale Feltes.
+- First version of the equivalent of a -h (human redeable) option.
+  Just click on Total Bytes in/out to cycle the scale(b,Kb,Mb) Suggested by Ale Feltes.
+- Better handling of the size of the mail window
+
+From 1.0.1 to 1.0.2
+- -----------------
+- new metalab.unc.edu path: /pub/Linux/system/network/serial/ppp
+- fixed: Massive typos
+   patch from: Serge Winitzki <S.Winitzki@damtp.cam.ac.uk>
+- fixed: when running as root, preferences can not saved.
+   Problem with access(3) function, now using open(2). 
+   Reported by: Serge Winitzki <S.Winitzki@damtp.cam.ac.uk>
+- old preferences saved when upgrading
+   Reported by: Serge Winitzki <S.Winitzki@damtp.cam.ac.uk>
+- fixed: problem detecting a rc file downgrade 
+- graph code clean up
+
+From 1.0.0 to 1.0.1
+- -----------------
+- this is the primary changelog, removed changelog from homepage.
+  better than maintaining 2 changelogs, is to maintain only one. :-)
+- changelog "Last updated" time now in GMT(UTC)
+- typo in about window, "Released un GPL" .(Help->About)
+- dinamic size of the initial graph, first step in making gpppkill resizable.
+- all dialog windows are no resizable
+- fixed: when detected the a running pppd for the second time and scale
+  change, the graph move to the right.
+- fixed: dirty graph when using 75dpi fonts.
+  reported by George M. Sipe <gsipe@pobox.com>
+- fixed: root can not kill any pppd. 
+  patch from Jean-Louis Leroy <jll@skynet.be>
+- fixed: the rc file was writen twice. 
+  patch from Alfred Weyers <alfred@otto.gia.RWTH-Aachen.DE>
+- version 1.0.1 ships: Tue Aug 17 21:07:25 UTC 1999
+
+From 0.9.18 to 1.0.0
+- ------------------
+- One aniversary version! Version 1.0.0 Rocks! 
+- all callback function now returns gint.
+- can (un)hide status bar
+- new popup menu, more to come.
+- clean up of debug messages in messageboxes
+- refresh list button in Interface tab of preference window
+- no more tooltips in preference window
+- no more gtk_widget_show() for every widget. Use gtk_widget_show_all(window)
+- New tab in preference window
+
+From 0.9.15 to 0.9.18
+- -------------------
+- got stable status!(after many tests)
+- many code clean up and new classes.
+- fixed bug when hiden the last component. You got a warning but the action
+  is writen in the gpppkillrc file.
+- all dialog are now modal and display as children windows.
+- fixed warnings when starting gpppkill with the graph component hiden.
+- fixed issue with the 3 configure_events. Now gpppkill don't call 
+  gtk_widget_show() for every widget. It use only one gtk_widget_show_all()
+- preference window got a clist for chosing a interface
+- got statusbar
+
+From 0.9.13 to 0.9.14
+- -------------------
+- fixed a black pixmap when Linux is at big load.
+    Very strange one, when Linux is aumenting the load(i.e. from 1.0 to 2.0)
+    the drawing area recive 3 configure_events. The second configure_event
+    has the width member (event->width < 0). I use this information to create
+    the pixmap, so I get a black pixmap. 
+    The issue is that in normal load, the drawing_area only get 2 
+    configure_event and neither event->width are < 0.
+- thanks to the function 'gdk_window_get_root_origin()' from gdk, the options
+    in the ~/.gpppkillrc :
+      dxWM
+      dyWM
+    are no more used. This function return the real position of the window
+    with the decoration of the window manager.
+- Compile in gtk+ 1.2 with the -DGTK_DISABLE_COMPAT_H option passed to the
+    compiler. This means, pure gtk+ 1.2!
+- first atempt to write and distribute a changelog in English.
+

@@ -14,3 +14,11 @@ http://www.pla.net.py/home/oliver/gpppkill/
 ## Contact info ##
 Get my email after a captcha at:
 http://tinymailto.com/oliver
+
+## External links ##
+gpppkill Home Page http://www.pla.net.py/home/oliver/gpppkill/
+Freshmeat page http://freshmeat.net/projects/gpppkill
+ohloh.net/gpppkill http://www.ohloh.net/projects/4937
+
+## Migrated from Google Code ##
+12-mar-2015

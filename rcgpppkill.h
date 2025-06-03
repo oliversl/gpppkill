@@ -28,7 +28,8 @@
 #ifndef _GPPPKILLRC_HPP_OSL_
 #define _GPPPKILLRC_HPP_OSL_
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 //para getuid() y getpwuid()
 #include <unistd.h>
 #include <pwd.h>

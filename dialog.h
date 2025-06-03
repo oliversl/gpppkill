@@ -28,7 +28,8 @@
 #ifndef _DIALOG_OSL_H_
 #define _DIALOG_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <sys/types.h>

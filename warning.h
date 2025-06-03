@@ -28,7 +28,8 @@
 #ifndef _WARNING_OSL_H_
 #define _WARNING_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h> // GDK_Escape

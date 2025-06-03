@@ -35,7 +35,8 @@
 #define _PPPKILL_HPP_OSL_
 
 //ppp includes
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <sys/ioctl.h>

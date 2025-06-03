@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -331,7 +331,7 @@ int gpppkill::gpppkill_init(int argc, char *argv[])
 		"Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.\n"
 		"\n"  
 		"You can reach the author at: \n"
-		"oliver@pla.net.py\n"
+		"oliversl@gmail.com\n"
 		"\n"
 		"gpppkill Home Page:\n"
 		"http://www.pla.net.py/home/oliver/gpppkill/\n");

@@ -16,7 +16,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *    
  *  A copy of the GNU General Public License is included with this program.
  */

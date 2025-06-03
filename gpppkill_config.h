@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -34,7 +34,7 @@
 #define PROGRAMA	"gpppkill"
 #define VERSION		"1.0.3"
 #define FECHA     "10-Set-2000"
-#define COPYLEFT  "Copyright (C) 1998-1999-2000  Oliver Schulze L. <oliver@pla.net.py>"
+#define COPYLEFT  "Copyright (C) 1998-1999-2000  Oliver Schulze L. <oliversl@gmail.com>"
 // [1.0.3] go ISS go (http://spaceflight.nasa.gov/station)
 #define RELEASE "STS-106" 
 // [1.0.2] in the memory of MCO. http://mars.jpl.nasa.gov/msp98/orbiter/

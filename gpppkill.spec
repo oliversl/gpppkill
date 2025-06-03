@@ -39,7 +39,7 @@ Detects all pppds and let you choose which to use.
 - resolved dinamic graph size. Now you can use any size of fonts, gpppkill will
   make the graph size dinamicaly
 - typo in Help->About 
-- cutting edge build: RPM 3.0.2, gtk+ 1.2.3
+- cutting edge build: RPM 3.0.2, gtk+ 3.0
 - changed the RPM group from 'X11/Applications/Networking' to
   'Applications/Internet'
 - well, back in bussiness again. :-)

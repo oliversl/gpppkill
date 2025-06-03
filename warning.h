@@ -45,7 +45,6 @@ class warning : public dialog {
 		          *pbar,
 		          *ok_button,
 		          *cancel_button;
-		GtkTooltips *tooltips;
 		class gpppkill *gpppk;	//solo se usa para hacer modal esta ventana
 		gint timeout_id,
 		     intervalo;

@@ -67,7 +67,7 @@ void messagebox::cargar_widget()
 
 	// unico boton.
 	button = gtk_button_new_with_label ("  OK  ");
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);	
+	gtk_widget_set_can_default(button, TRUE);	
 	gtk_box_pack_start ( GTK_BOX(hbox), button, TRUE, FALSE, 10);
 	gtk_widget_grab_default (button);
 }
@@ -77,13 +77,13 @@ void messagebox::cargar_widget()
 void messagebox::conectar_signal()
 {
 	// signal de la ventana
-	gtk_signal_connect (GTK_OBJECT(window), "delete_event",
-											GTK_SIGNAL_FUNC(messagebox_delete_event_callback),
+	g_signal_connect (G_OBJECT(window), "delete_event",
+											G_CALLBACK(messagebox_delete_event_callback),
 											this);
 
 	// signal del boton OK
-	gtk_signal_connect (GTK_OBJECT(button), "clicked",
-											GTK_SIGNAL_FUNC(messagebox_clicked_callback),
+	g_signal_connect (G_OBJECT(button), "clicked",
+											G_CALLBACK(messagebox_clicked_callback),
 											this);
 }
 

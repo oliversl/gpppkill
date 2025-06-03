@@ -42,14 +42,14 @@ dialog::dialog(void)
 	//gtk_container_border_width (GTK_CONTAINER (window), 2*CONTAINER_ANCHO);
 	gtk_container_set_border_width (GTK_CONTAINER (window), 2*CONTAINER_ANCHO);
 
-	gtk_signal_connect (GTK_OBJECT(window), "destroy",
-											GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+	g_signal_connect (G_OBJECT(window), "destroy",
+											G_CALLBACK(gtk_widget_destroyed),
 											&window);
 
 	/* gtk_window_set_policy(window, allow_shrink, allow_grow, auto_shrink);
 	 * para que no se pueda cambiar el tamanho 
 	 */
-	gtk_window_set_policy(GTK_WINDOW(window), 0, 0, 1);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
 	construir_box();
 
@@ -62,19 +62,19 @@ dialog::dialog(void)
 void dialog::construir_box(void)
 {
 	// el dialog es un vbox dentro de una ventana
-	vbox_main = gtk_vbox_new(FALSE, 0);
+	vbox_main = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(window), vbox_main);
 
 	// un vbox encima del separator
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start( GTK_BOX(vbox_main), vbox, FALSE, FALSE, 2);
 
 	// el separator
-	separator = gtk_hseparator_new();
+	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox_main), separator, FALSE, TRUE, 5);
 
 	// un hbox debajo del saparator, para los botones.
-	hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start( GTK_BOX(vbox_main), hbox, FALSE, FALSE, 5);
 }
 

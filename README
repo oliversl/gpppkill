@@ -64,12 +64,8 @@ Install:
 Please refer to the INSTALL file.
 
 Building on modern systems
--------------------------
-This source tree uses legacy GTK 1/2 APIs (for example `GtkCList` and
-old progress bar widgets). Attempting to build with the GTK 4 stack on
-Ubuntu 24.04 fails because those APIs were removed. Significant porting
-work is required to migrate to a current toolkit.
-
+--------------------------
+The original sources rely on GTK 1/2 widgets such as `GtkCList`. A partial compatibility shim has been added but the program still fails to compile with GTK 4 on Ubuntu 24.04 due to numerous obsolete APIs. Fully migrating the UI will require substantial refactoring.
 gpppkill Home Page:
 - -----------------
   http://www.pla.net.py/home/oliver/gpppkill/

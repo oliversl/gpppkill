@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -35,7 +35,8 @@
 #define _PPPKILL_HPP_OSL_
 
 //ppp includes
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <sys/ioctl.h>

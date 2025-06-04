@@ -12,19 +12,19 @@ Index
 1. System requierement
 ----------------------
  gpppkill was developed and tested with:
-	linux 2.2.13
-	gtk+  1.2.5
-	egcs  1.1.2
-	glibc 2.1.2 (libc 6 under Linux)
+	Linux 6.x
+	gtk+  3.0
+	gcc 11
+	glibc 2.34
 
  rpm package version:
-  RedHat 6.1
-  gtk+-1.2.5-2
-  gtk+-devel-1.2.5-2
-  glib-1.2.5-1
-  glib-devel-1.2.5-1
-  egcs-1.1.2-24
-  glibc-2.1.2-11
+  AlmaLinux 9
+  gtk3-3.x
+  gtk3-devel-3.x
+  glib2-2.x
+  glib2-devel-2.x
+  gcc-11
+  glibc-2.34
 
 2. Compilation instruccions
 ---------------------------
@@ -62,7 +62,7 @@ Contact info:
   http://www.pla.net.py/home/oliver/gpppkill/
 
  My e-mail:
-  oliver@pla.net.py
+  oliversl@gmail.com
 
 Have fun!
 Oliver

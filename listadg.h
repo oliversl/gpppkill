@@ -16,7 +16,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *    
  *  A copy of the GNU General Public License is included with this program.
  */
@@ -28,7 +28,8 @@
 #ifndef _LISTADG_OSL_H_
 #define _LISTADG_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #include <string.h>
 

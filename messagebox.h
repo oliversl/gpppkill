@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -28,7 +28,8 @@
 #ifndef _MESSAGEBOX_OSL_H_
 #define _MESSAGEBOX_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <sys/types.h>

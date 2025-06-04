@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -86,7 +86,7 @@ void warning::cargar_widget()
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 
 	// antes de la tabla de informacion
-	hbox_aux  = gtk_hbox_new(FALSE, 0);
+	hbox_aux  = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	label = gtk_label_new("The pppd is about to be killed");
 	gtk_label_set_pattern(GTK_LABEL(label), "______________________________");
@@ -94,7 +94,7 @@ void warning::cargar_widget()
 	gtk_box_pack_start (GTK_BOX(hbox_aux), label, FALSE, FALSE, WARN_H_PADDING);
 	gtk_box_pack_start (GTK_BOX(vbox), hbox_aux, TRUE, TRUE, WARN_V_PADDING);
 
-	hbox_aux  = gtk_hbox_new(FALSE, 0);
+	hbox_aux  = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	label = gtk_label_new("Information:");
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
@@ -105,14 +105,14 @@ void warning::cargar_widget()
 	cargar_tabla();
 
 	// despues de la tabla de informacion
-	hbox_aux  = gtk_hbox_new(FALSE, 0);
+	hbox_aux  = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	label = gtk_label_new("The default action is to kill the pppd");
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
 	gtk_box_pack_start (GTK_BOX(hbox_aux), label, FALSE, FALSE, WARN_H_PADDING);
 	gtk_box_pack_start (GTK_BOX(vbox), hbox_aux, TRUE, TRUE, WARN_V_PADDING);
 
-	hbox_aux  = gtk_hbox_new(FALSE, 0);
+	hbox_aux  = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	label = gtk_label_new("What would you like to do?");
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
@@ -126,16 +126,14 @@ void warning::cargar_widget()
 	gtk_progress_set_format_string (GTK_PROGRESS (pbar), "%p %%");
 	gtk_progress_set_show_text(GTK_PROGRESS (pbar), TRUE);
 	gtk_widget_set_events (pbar, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
-	gtk_widget_set_usize (pbar, WARNING_PBAR_LARGO, WARNING_PBAR_ANCHO);
+	gtk_widget_set_size_request (pbar, WARNING_PBAR_LARGO, WARNING_PBAR_ANCHO);
 	gtk_box_pack_start (GTK_BOX (vbox), pbar, TRUE, TRUE, WARN_V_PADDING);
 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip (tooltips, pbar, " Countdown is in progress... ", "");
-	gtk_tooltips_set_delay (tooltips, 0);
+	gtk_widget_set_tooltip_text(pbar, " Countdown is in progress... ");
 
 	// botones
 	ok_button = gtk_button_new_with_label (" kill ppp ");
-	GTK_WIDGET_SET_FLAGS (ok_button, GTK_CAN_DEFAULT);	
+	gtk_widget_set_can_default(ok_button, TRUE);	
 	gtk_box_pack_start ( GTK_BOX(hbox), ok_button, 
 											TRUE, FALSE, 10);
 	//gtk_widget_grab_default (ok_button);
@@ -144,7 +142,7 @@ void warning::cargar_widget()
 		cancel_button = gtk_button_new_with_label ("  Restart idletime  ");
 	else
 		cancel_button = gtk_button_new_with_label (" Restart onlinetime ");
-	GTK_WIDGET_SET_FLAGS (cancel_button, GTK_CAN_DEFAULT);	
+	gtk_widget_set_can_default(cancel_button, TRUE);	
 	gtk_box_pack_start ( GTK_BOX(hbox), cancel_button, 
 											TRUE, FALSE, 10);
 	// requested by quenhan@pla.net.py
@@ -212,29 +210,29 @@ void warning::cargar_tabla(void)
  */
 void warning::conectar_signal()
 {
-	gtk_signal_connect (GTK_OBJECT(window), "delete_event",
-											GTK_SIGNAL_FUNC(warning_delete_event_callback),
+	g_signal_connect (G_OBJECT(window), "delete_event",
+											G_CALLBACK(warning_delete_event_callback),
 											this);
 	//callbacks
-	gtk_signal_connect (GTK_OBJECT(ok_button), "clicked",
-											GTK_SIGNAL_FUNC(warning_ok_callback),
+	g_signal_connect (G_OBJECT(ok_button), "clicked",
+											G_CALLBACK(warning_ok_callback),
 											this);
-	gtk_signal_connect (GTK_OBJECT(cancel_button), "clicked",
-											GTK_SIGNAL_FUNC(warning_cancel_callback),
-											this);
-
-	gtk_signal_connect (GTK_OBJECT(window), "key-press-event",
-											GTK_SIGNAL_FUNC(warning_key_callback),
+	g_signal_connect (G_OBJECT(cancel_button), "clicked",
+											G_CALLBACK(warning_cancel_callback),
 											this);
 
-	timeout_id = gtk_timeout_add(intervalo, warning_timeout_callback, this);
+	g_signal_connect (G_OBJECT(window), "key-press-event",
+											G_CALLBACK(warning_key_callback),
+											this);
+
+	timeout_id = g_timeout_add(intervalo, warning_timeout_callback, this);
 }
 
 /*------------------------------------------------------------------------------
  */
 void warning::quit()
 {
-  gtk_timeout_remove(timeout_id);
+  g_source_remove(timeout_id);
 	gtk_main_quit();
 	gtk_widget_destroy(window);
 
@@ -303,7 +301,7 @@ gint warning_cancel_callback(GtkButton *button, warning *w)
 gboolean warning_key_callback(GtkWidget *widget, GdkEventKey *event, warning *w)
 {
 	if(event->keyval == GDK_Escape) {
-		gtk_signal_emit_by_name(GTK_OBJECT(w->cancel_button), "clicked");
+		gtk_signal_emit_by_name(G_OBJECT(w->cancel_button), "clicked");
 		return TRUE;
 	}
 	return FALSE;

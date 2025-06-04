@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -83,11 +83,11 @@ void graf::crear_draw()
   draw = gtk_drawing_area_new();
 
   // Conectar drawing_area a su callbacks
-  gtk_signal_connect(	GTK_OBJECT(draw), 
+  g_signal_connect(	G_OBJECT(draw), 
   										"expose_event",
 		      						(GtkSignalFunc) graf_expose_event_callback, 
 		      						this);
-  gtk_signal_connect( GTK_OBJECT(draw),  
+  g_signal_connect( G_OBJECT(draw),  
   										"configure_event",
 		      						(GtkSignalFunc) graf_configure_event_callback, 
 		      						this);

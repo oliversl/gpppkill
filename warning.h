@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -28,7 +28,8 @@
 #ifndef _WARNING_OSL_H_
 #define _WARNING_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h> // GDK_Escape
@@ -44,7 +45,6 @@ class warning : public dialog {
 		          *pbar,
 		          *ok_button,
 		          *cancel_button;
-		GtkTooltips *tooltips;
 		class gpppkill *gpppk;	//solo se usa para hacer modal esta ventana
 		gint timeout_id,
 		     intervalo;

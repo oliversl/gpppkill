@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *  
  *  You can reach the author at: 
- *    oliver@pla.net.py
+ *    oliversl@gmail.com
  *
  *  gpppkill Home Page:
  *    http://www.pla.net.py/home/oliver/gpppkill/
@@ -331,7 +331,7 @@ int gpppkill::gpppkill_init(int argc, char *argv[])
 		"Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.\n"
 		"\n"  
 		"You can reach the author at: \n"
-		"oliver@pla.net.py\n"
+		"oliversl@gmail.com\n"
 		"\n"
 		"gpppkill Home Page:\n"
 		"http://www.pla.net.py/home/oliver/gpppkill/\n");
@@ -488,16 +488,16 @@ void gpppkill::crear_ventana(void)
 
 	gtk_window_set_wmclass(GTK_WINDOW(window), "gpppkill", "Gpppkill");
 
-  gtk_signal_connect (GTK_OBJECT(window), "destroy", 
-  										GTK_SIGNAL_FUNC (gtk_widget_destroyed), &window);
+  g_signal_connect (G_OBJECT(window), "destroy", 
+  										G_CALLBACK (gtk_widget_destroyed), &window);
 
 	//connectar window a sus callback
-  gtk_signal_connect (GTK_OBJECT(window), "delete_event", 
-  										GTK_SIGNAL_FUNC (gpppkill_delete_event_callback), this);
+  g_signal_connect (G_OBJECT(window), "delete_event", 
+  										G_CALLBACK (gpppkill_delete_event_callback), this);
 
 	//Para obtener la posicion de la ventana cada vez que se mueve.
-  gtk_signal_connect (GTK_OBJECT(window), "configure_event", 
-  										GTK_SIGNAL_FUNC (gpppkill_configure_event_callback), this);
+  g_signal_connect (G_OBJECT(window), "configure_event", 
+  										G_CALLBACK (gpppkill_configure_event_callback), this);
 
 	//Propiedades de window
 	gtk_window_set_title (GTK_WINDOW (window), PROGRAMA " " VERSION);
@@ -506,7 +506,7 @@ void gpppkill::crear_ventana(void)
 	/* gtk_window_set_policy(window, allow_shrink, allow_grow, auto_shrink);
 	 * para que no se pueda cambiar el tamanho 
 	 */
-	gtk_window_set_policy(GTK_WINDOW(window), 0, 0, 1);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	//gtk_window_set_policy(GTK_WINDOW(window), 0, 1, 0);
 }
 
@@ -522,7 +522,7 @@ void gpppkill::cargar_ventana(void)
 	gtk_container_add (GTK_CONTAINER(window), event_box_main);
 
 	//	Este es el vbox principal. Aqui se carga todo.
-  vbox = gtk_vbox_new (FALSE, 0);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	//agregar al contenedor event_box_main
 	gtk_container_add(GTK_CONTAINER(event_box_main), vbox);
 
@@ -541,13 +541,13 @@ void gpppkill::cargar_ventana(void)
 	dibujar_labels_insensitive();
 	
 	gtk_widget_set_events (event_box_main, GDK_BUTTON_PRESS_MASK);
-	gtk_signal_connect_object(GTK_OBJECT(event_box_main), "event",
-														GTK_SIGNAL_FUNC (gpppkill_button_press_callback),
-														GTK_OBJECT(popup_menu));
+	g_signal_connect_object(G_OBJECT(event_box_main), "event",
+														G_CALLBACK (gpppkill_button_press_callback),
+														G_OBJECT(popup_menu));
 
 	// --- Timeout para la funcion grafico ---
-	id_timeout = gtk_timeout_add(INTERVALO,
-	                             (GtkFunction) gpppkill_timeout_callback,
+	id_timeout = g_timeout_add(INTERVALO,
+	                             (GSourceFunc) gpppkill_timeout_callback,
 	                             this);
 }
 
@@ -654,15 +654,15 @@ void gpppkill::crear_popup_menu(void)
 	gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(view_status)  , TRUE);
 
 	if(rc->load_ViewGraph())
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_graf)    , gtk_true());
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_graf)    , TRUE);
 	if(rc->load_ViewStats())
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_stats)   , gtk_true());
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_stats)   , TRUE);
 	if(rc->load_ViewTime())
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_idletime), gtk_true());
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_idletime), TRUE);
 	if(rc->load_ViewInfo())
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_info) , gtk_true());
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_info) , TRUE);
 	if(rc->load_ViewStatus())
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_status) , gtk_true());
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_status) , TRUE);
 	
 	gtk_menu_append(GTK_MENU(view_menu), view_graf);
 	gtk_menu_append(GTK_MENU(view_menu), view_stats);
@@ -685,37 +685,37 @@ void gpppkill::crear_popup_menu(void)
 
 	// ------ menu signals ---------
 	//file
-	gtk_signal_connect(	GTK_OBJECT(file_exit), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_exit_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(file_exit), "activate",
+											G_CALLBACK(gpppkill_exit_pressed_callback), this);
 
 	//ppp
-	gtk_signal_connect(	GTK_OBJECT(ppp_pref), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_pref_pressed_callback), 
+	g_signal_connect(	G_OBJECT(ppp_pref), "activate",
+											G_CALLBACK(gpppkill_pref_pressed_callback), 
 											this);
-	gtk_signal_connect(	GTK_OBJECT(idletime_menuitem), "toggled",
-											GTK_SIGNAL_FUNC(gpppkill_idletime_menuitem_pressed_callback), 
+	g_signal_connect(	G_OBJECT(idletime_menuitem), "toggled",
+											G_CALLBACK(gpppkill_idletime_menuitem_pressed_callback), 
 											this);
-	gtk_signal_connect(	GTK_OBJECT(onlinetime_menuitem), "toggled",
-											GTK_SIGNAL_FUNC(gpppkill_onlinetime_menuitem_pressed_callback), 
+	g_signal_connect(	G_OBJECT(onlinetime_menuitem), "toggled",
+											G_CALLBACK(gpppkill_onlinetime_menuitem_pressed_callback), 
 											this);
-	gtk_signal_connect(	GTK_OBJECT(ppp_kill), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_ppp_kill_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(ppp_kill), "activate",
+											G_CALLBACK(gpppkill_ppp_kill_pressed_callback), this);
 
 	//view
-	gtk_signal_connect(	GTK_OBJECT(view_graf), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_view_graf_pressed_callback), this);
-	gtk_signal_connect(	GTK_OBJECT(view_stats), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_view_stats_pressed_callback), this);
-	gtk_signal_connect(	GTK_OBJECT(view_idletime), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_view_idletime_pressed_callback), this);
-	gtk_signal_connect(	GTK_OBJECT(view_info), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_view_info_pressed_callback), this);
-	gtk_signal_connect(	GTK_OBJECT(view_status), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_view_status_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(view_graf), "activate",
+											G_CALLBACK(gpppkill_view_graf_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(view_stats), "activate",
+											G_CALLBACK(gpppkill_view_stats_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(view_idletime), "activate",
+											G_CALLBACK(gpppkill_view_idletime_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(view_info), "activate",
+											G_CALLBACK(gpppkill_view_info_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(view_status), "activate",
+											G_CALLBACK(gpppkill_view_status_pressed_callback), this);
 
 	//help
-	gtk_signal_connect(	GTK_OBJECT(help_about), "activate",
-											GTK_SIGNAL_FUNC(gpppkill_about_pressed_callback), this);
+	g_signal_connect(	G_OBJECT(help_about), "activate",
+											G_CALLBACK(gpppkill_about_pressed_callback), this);
 
 }
 
@@ -727,7 +727,6 @@ void gpppkill::cargar_frame_graf(GtkWidget *vbox)
 {
 	GtkWidget       *event_box,
 	                *tmp_draw;
-	GtkTooltips     *tooltips;
 
 	grafico->crear_draw();
 
@@ -740,8 +739,7 @@ void gpppkill::cargar_frame_graf(GtkWidget *vbox)
 	gtk_container_add (GTK_CONTAINER(event_box), tmp_draw);
 
 	//tooltips
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, event_box, "Graph: plots the number bytes/sec received", "");
+	gtk_widget_set_tooltip_text(event_box, "Graph: plots the number bytes/sec received");
 
 	// --- frame ---
 	frame_graf = gtk_frame_new(NULL);
@@ -767,12 +765,12 @@ void gpppkill::cargar_frame_stats(GtkWidget *vbox)
 	//GtkWidget *frame;
 	GtkWidget   *e_box_in,
 							*e_box_out;
-	GtkTooltips *tooltips;
 
-	aux_hbox = gtk_hbox_new(FALSE, 0);
+	aux_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	// -- labels 'in' y 'out' ----------------------------------------------------
-	aux_vbox = gtk_vbox_new(TRUE, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+	aux_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+    gtk_box_set_homogeneous(GTK_BOX(aux_vbox), TRUE);
 
 	//event boxs para los labels
 	e_box_in  = gtk_event_box_new ();
@@ -791,16 +789,15 @@ void gpppkill::cargar_frame_stats(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(aux_vbox), e_box_out, TRUE, TRUE, 0);
 
 	//tooltips 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_in, "Bytes/sec in", "");
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_out, "Bytes/sec out", "");
+	gtk_widget_set_tooltip_text(e_box_in, "Bytes/sec in");
+	gtk_widget_set_tooltip_text(e_box_out, "Bytes/sec out");
 
 	//empaquetar en el box auxiliar horizontal
 	gtk_box_pack_end(GTK_BOX(aux_hbox), aux_vbox, TRUE, TRUE, 0);	
 
 	// --- labels 'promedio_in' y 'promedio_out' ---------------------------------
-	aux_vbox = gtk_vbox_new(TRUE, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+	aux_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+    gtk_box_set_homogeneous(GTK_BOX(aux_vbox), TRUE);
 
 	//event boxs para los labels
 	e_box_in  = gtk_event_box_new ();
@@ -819,16 +816,15 @@ void gpppkill::cargar_frame_stats(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(aux_vbox), e_box_out, TRUE, TRUE, 0);
 
 	//tooltips 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_in, "Average of 'bytes in' in the last minute (Kbytes/sec)", "");
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_out, "Average of 'bytes out' in the last minute (Kbytes/sec)", "");
+	gtk_widget_set_tooltip_text(e_box_in, "Average of 'bytes in' in the last minute (Kbytes/sec)");
+	gtk_widget_set_tooltip_text(e_box_out, "Average of 'bytes out' in the last minute (Kbytes/sec)");
 
 	//empaquetar en el box auxiliar horizontal
 	gtk_box_pack_end(GTK_BOX(aux_hbox), aux_vbox, TRUE, TRUE, 0);	
 
 	// --- labels 'total_in' y 'total_out' ---------------------------------------
-	aux_vbox = gtk_vbox_new(TRUE, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+	aux_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+    gtk_box_set_homogeneous(GTK_BOX(aux_vbox), TRUE);
 
 	//event boxs para los labels
 	e_box_in  = gtk_event_box_new ();
@@ -850,29 +846,28 @@ void gpppkill::cargar_frame_stats(GtkWidget *vbox)
 	gtk_box_pack_end(GTK_BOX(aux_hbox), aux_vbox, TRUE, TRUE, 0);	
 
 	//tooltips 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_in , "Total bytes in ", "");
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_out, "Total bytes out", "");
+	gtk_widget_set_tooltip_text(e_box_in , "Total bytes in ");
+	gtk_widget_set_tooltip_text(e_box_out, "Total bytes out");
 
 	//callbacks
 	// total_in
-	gtk_signal_connect(GTK_OBJECT(e_box_in), "enter_notify_event",
-	                  GTK_SIGNAL_FUNC(gpppkill_total_in_enter_callback), this);
-	gtk_signal_connect(GTK_OBJECT(e_box_in), "leave_notify_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_total_in_leave_callback), this);
-	gtk_signal_connect(GTK_OBJECT(e_box_in), "button_press_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_total_in_click_callback), this);
+	g_signal_connect(G_OBJECT(e_box_in), "enter_notify_event",
+	                  G_CALLBACK(gpppkill_total_in_enter_callback), this);
+	g_signal_connect(G_OBJECT(e_box_in), "leave_notify_event",
+	                   G_CALLBACK(gpppkill_total_in_leave_callback), this);
+	g_signal_connect(G_OBJECT(e_box_in), "button_press_event",
+	                   G_CALLBACK(gpppkill_total_in_click_callback), this);
 	// total_out
-	gtk_signal_connect(GTK_OBJECT(e_box_out), "enter_notify_event",
-	                  GTK_SIGNAL_FUNC(gpppkill_total_out_enter_callback), this);
-	gtk_signal_connect(GTK_OBJECT(e_box_out), "leave_notify_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_total_out_leave_callback), this);
-	gtk_signal_connect(GTK_OBJECT(e_box_out), "button_press_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_total_out_click_callback), this);
+	g_signal_connect(G_OBJECT(e_box_out), "enter_notify_event",
+	                  G_CALLBACK(gpppkill_total_out_enter_callback), this);
+	g_signal_connect(G_OBJECT(e_box_out), "leave_notify_event",
+	                   G_CALLBACK(gpppkill_total_out_leave_callback), this);
+	g_signal_connect(G_OBJECT(e_box_out), "button_press_event",
+	                   G_CALLBACK(gpppkill_total_out_click_callback), this);
 
 	// --- labels 'promedio_in' y 'promedio_out' ---------------------------------
-	aux_vbox = gtk_vbox_new(TRUE, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+	aux_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);	//(TRUE, 0) -> todos con tamanhos iguales
+    gtk_box_set_homogeneous(GTK_BOX(aux_vbox), TRUE);
 
 	//event boxs para los labels
 	e_box_in  = gtk_event_box_new ();
@@ -891,10 +886,8 @@ void gpppkill::cargar_frame_stats(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(aux_vbox), e_box_out, TRUE, TRUE, 0);
 
 	//tooltips 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_in, "Average of the total bytes/sec received (Total_Kbytes_in/ppp_uptime)", "");
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_out, "Average of the total bytes/sec sent (Total_Kbytes_out/ppp_uptime)", "");
+	gtk_widget_set_tooltip_text(e_box_in, "Average of the total bytes/sec received (Total_Kbytes_in/ppp_uptime)");
+	gtk_widget_set_tooltip_text(e_box_out, "Average of the total bytes/sec sent (Total_Kbytes_out/ppp_uptime)");
 
 	//empaquetar en el box auxiliar horizontal
 	gtk_box_pack_end(GTK_BOX(aux_hbox), aux_vbox, TRUE, TRUE, 0);	
@@ -920,9 +913,9 @@ void gpppkill::cargar_frame_time(GtkWidget *vbox)
 	GtkWidget   *aux_hbox;
 							//*e_box_idle,
 							//*e_box_online;
-	GtkTooltips *tooltips;
 
-	aux_hbox = gtk_hbox_new(TRUE, 0);//(TRUE, 0) -> todos con tamanhos iguales
+	aux_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);//(TRUE, 0) -> todos con tamanhos iguales
+    gtk_box_set_homogeneous(GTK_BOX(aux_hbox), TRUE);
 
 	//crear
 	label_idletime  = gtk_label_new(KILLTIME_OFF_STR);
@@ -934,25 +927,25 @@ void gpppkill::cargar_frame_time(GtkWidget *vbox)
 	gtk_widget_set_events(e_box_idle, 
 	                      GDK_BUTTON_PRESS_MASK | GDK_ENTER_NOTIFY_MASK | 
 	                      GDK_LEAVE_NOTIFY_MASK);
-	gtk_signal_connect(GTK_OBJECT(e_box_idle), "button_press_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_idletime_2click_callback), this);
+	g_signal_connect(G_OBJECT(e_box_idle), "button_press_event",
+	                   G_CALLBACK(gpppkill_idletime_2click_callback), this);
 /*
-	gtk_signal_connect(GTK_OBJECT(e_box_idle), "enter_notify_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_idletime_enter_callback), this);
-	gtk_signal_connect(GTK_OBJECT(e_box_idle), "leave_notify_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_idletime_leave_callback), this);
+	g_signal_connect(G_OBJECT(e_box_idle), "enter_notify_event",
+	                   G_CALLBACK(gpppkill_idletime_enter_callback), this);
+	g_signal_connect(G_OBJECT(e_box_idle), "leave_notify_event",
+	                   G_CALLBACK(gpppkill_idletime_leave_callback), this);
 */
 
 	gtk_widget_set_events(e_box_online, 
 	                      GDK_BUTTON_PRESS_MASK | GDK_ENTER_NOTIFY_MASK | 
 	                      GDK_LEAVE_NOTIFY_MASK);
-	gtk_signal_connect(GTK_OBJECT(e_box_online), "button_press_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_onlinetime_2click_callback), this);
+	g_signal_connect(G_OBJECT(e_box_online), "button_press_event",
+	                   G_CALLBACK(gpppkill_onlinetime_2click_callback), this);
 /*
-	gtk_signal_connect(GTK_OBJECT(e_box_online), "enter_notify_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_onlinetime_enter_callback), this);
-	gtk_signal_connect(GTK_OBJECT(e_box_online), "leave_notify_event",
-	                   GTK_SIGNAL_FUNC(gpppkill_onlinetime_leave_callback), this);
+	g_signal_connect(G_OBJECT(e_box_online), "enter_notify_event",
+	                   G_CALLBACK(gpppkill_onlinetime_enter_callback), this);
+	g_signal_connect(G_OBJECT(e_box_online), "leave_notify_event",
+	                   G_CALLBACK(gpppkill_onlinetime_leave_callback), this);
 */
 
 	//colocar el label en el event box
@@ -964,10 +957,8 @@ void gpppkill::cargar_frame_time(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(aux_hbox), e_box_online, TRUE, FALSE, 0);
 
 	//tooltips 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_idle, "idle_time option: Time left before killing ppp due to inactivity. Double click to [de]activate.", "");
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_online, "online_time option: Time left before killing ppp due to the online time limit. Double click to [de]activate.", "");
+	gtk_widget_set_tooltip_text(e_box_idle, "idle_time option: Time left before killing ppp due to inactivity. Double click to [de]activate.");
+	gtk_widget_set_tooltip_text(e_box_online, "online_time option: Time left before killing ppp due to the online time limit. Double click to [de]activate.");
 
 	//frame ------------------------
 	frame_time = gtk_frame_new(" pppkill ");
@@ -991,9 +982,9 @@ void gpppkill::cargar_frame_info(GtkWidget *vbox)
 	GtkWidget   *e_box_interface,
 						  *e_box_pid,
 						  *e_box_uptime;
-	GtkTooltips *tooltips;
 
-	aux_hbox = gtk_hbox_new(TRUE, 0);//(TRUE, 0) -> todos con tamanhos iguales
+	aux_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);//(TRUE, 0) -> todos con tamanhos iguales
+    gtk_box_set_homogeneous(GTK_BOX(aux_hbox), TRUE);
 
 	//crear
 	e_box_interface = gtk_event_box_new ();
@@ -1009,10 +1000,9 @@ void gpppkill::cargar_frame_info(GtkWidget *vbox)
 	gtk_container_add(GTK_CONTAINER(e_box_uptime)   , label_uptime );
 
 	//tooltips 
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips, e_box_interface, "ppp Interface name", "");
-	gtk_tooltips_set_tip(tooltips, e_box_pid      , "ppp Process ID", "");
-	gtk_tooltips_set_tip(tooltips, e_box_uptime   , "ppp Uptime", "");
+	gtk_widget_set_tooltip_text(e_box_interface, "ppp Interface name");
+	gtk_widget_set_tooltip_text(e_box_pid      , "ppp Process ID");
+	gtk_widget_set_tooltip_text(e_box_uptime   , "ppp Uptime");
 
 	//ocupar el maximo espacio posible
 	gtk_box_pack_start(GTK_BOX(aux_hbox), e_box_interface, TRUE, TRUE, 2);
@@ -1087,10 +1077,10 @@ void gpppkill::mostrar_ventana()
 	 *	Ancho de la ventana fijo. Para que no se achique mucho cuando solo se 
 	 *	ve el modulo stats. Para que se vea bien el titulo de la ventana.
 	 */
-	//gtk_widget_set_usize(window, (rq.width) + (2*CONTAINER_ANCHO), -1);
+	//gtk_widget_set_size_request(window, (rq.width) + (2*CONTAINER_ANCHO), -1);
 
 	// aqui se generea en segundo configure_event
-//	gtk_widget_set_usize(window, (DRAW_ANCHO+4) + (2*CONTAINER_ANCHO), -1);
+//	gtk_widget_set_size_request(window, (DRAW_ANCHO+4) + (2*CONTAINER_ANCHO), -1);
 
 	//g_print("DRAW_ANCHO:%d TOTAL:%d\n", DRAW_ANCHO, ( DRAW_ANCHO+4 + (2*CONTAINER_ANCHO) )); 
 	//g_print("x:%d y:%d \n", rq.width, rq.height);
@@ -1135,8 +1125,8 @@ void gpppkill::xkill_pppd(void)
 	
 	stop();
 
-	kill_timeout = gtk_timeout_add(KILL_INTERVALO,
-	                              (GtkFunction) gpppkill_kill_timeout_callback,
+	kill_timeout = g_timeout_add(KILL_INTERVALO,
+	                              (GSourceFunc) gpppkill_kill_timeout_callback,
 	                              this);
 
 	gtk_main();
@@ -1286,10 +1276,10 @@ void gpppkill::dibujar_update_frame_info(void)
 	static char str[12];
 
 	if(pppd_ok) {
-		gtk_widget_set_sensitive(label_interface, gtk_true());
+		gtk_widget_set_sensitive(label_interface, TRUE);
 		gtk_label_set_text(GTK_LABEL(label_interface), interface);
 
-		gtk_widget_set_sensitive(label_pid, gtk_true());
+		gtk_widget_set_sensitive(label_pid, TRUE);
 		sprintf(str, "%d", pppd_pid);
 		gtk_label_set_text(GTK_LABEL(label_pid), str);
 	}
@@ -1306,25 +1296,25 @@ void gpppkill::dibujar_labels_sensitive(void)
 		labels_sensitive = 1;
 
 	//statistics labels
-	gtk_widget_set_sensitive(label_in, gtk_true());
-	gtk_widget_set_sensitive(label_out, gtk_true());
-	gtk_widget_set_sensitive(label_total_in, gtk_true());
-	gtk_widget_set_sensitive(label_total_out, gtk_true());
-	gtk_widget_set_sensitive(label_promedio_in, gtk_true());
-	gtk_widget_set_sensitive(label_promedio_out, gtk_true());
-	gtk_widget_set_sensitive(label_promedio_total_in, gtk_true());
-	gtk_widget_set_sensitive(label_promedio_total_out, gtk_true());
+	gtk_widget_set_sensitive(label_in, TRUE);
+	gtk_widget_set_sensitive(label_out, TRUE);
+	gtk_widget_set_sensitive(label_total_in, TRUE);
+	gtk_widget_set_sensitive(label_total_out, TRUE);
+	gtk_widget_set_sensitive(label_promedio_in, TRUE);
+	gtk_widget_set_sensitive(label_promedio_out, TRUE);
+	gtk_widget_set_sensitive(label_promedio_total_in, TRUE);
+	gtk_widget_set_sensitive(label_promedio_total_out, TRUE);
 
 	//pppkill labels
 	if(es_mio) {
-		gtk_widget_set_sensitive(label_idletime, gtk_true());
-		gtk_widget_set_sensitive(label_onlinetime, gtk_true());
+		gtk_widget_set_sensitive(label_idletime, TRUE);
+		gtk_widget_set_sensitive(label_onlinetime, TRUE);
 	}
 
 	//info labels
-	gtk_widget_set_sensitive(label_interface, gtk_true());
-	gtk_widget_set_sensitive(label_pid, gtk_true());
-	gtk_widget_set_sensitive(label_uptime, gtk_true());
+	gtk_widget_set_sensitive(label_interface, TRUE);
+	gtk_widget_set_sensitive(label_pid, TRUE);
+	gtk_widget_set_sensitive(label_uptime, TRUE);
 }
 
 /*------------------------------------------------------------------------------
@@ -1338,23 +1328,23 @@ void gpppkill::dibujar_labels_insensitive(void)
 		labels_sensitive = 0;
 		
 	//statistics labels
-	gtk_widget_set_sensitive(label_in, gtk_false());
-	gtk_widget_set_sensitive(label_out, gtk_false());
-	gtk_widget_set_sensitive(label_total_in, gtk_false());
-	gtk_widget_set_sensitive(label_total_out, gtk_false());
-	gtk_widget_set_sensitive(label_promedio_in, gtk_false());
-	gtk_widget_set_sensitive(label_promedio_out, gtk_false());
-	gtk_widget_set_sensitive(label_promedio_total_in, gtk_false());
-	gtk_widget_set_sensitive(label_promedio_total_out, gtk_false());
+	gtk_widget_set_sensitive(label_in, FALSE);
+	gtk_widget_set_sensitive(label_out, FALSE);
+	gtk_widget_set_sensitive(label_total_in, FALSE);
+	gtk_widget_set_sensitive(label_total_out, FALSE);
+	gtk_widget_set_sensitive(label_promedio_in, FALSE);
+	gtk_widget_set_sensitive(label_promedio_out, FALSE);
+	gtk_widget_set_sensitive(label_promedio_total_in, FALSE);
+	gtk_widget_set_sensitive(label_promedio_total_out, FALSE);
 
 	//pppkill labels
-	gtk_widget_set_sensitive(label_idletime, gtk_false());
-	gtk_widget_set_sensitive(label_onlinetime, gtk_false());
+	gtk_widget_set_sensitive(label_idletime, FALSE);
+	gtk_widget_set_sensitive(label_onlinetime, FALSE);
 
 	//info labels
-	gtk_widget_set_sensitive(label_interface, gtk_false());
-	gtk_widget_set_sensitive(label_pid, gtk_false());
-	gtk_widget_set_sensitive(label_uptime, gtk_false());
+	gtk_widget_set_sensitive(label_interface, FALSE);
+	gtk_widget_set_sensitive(label_pid, FALSE);
+	gtk_widget_set_sensitive(label_uptime, FALSE);
 }
 
 /*------------------------------------------------------------------------------
@@ -1529,7 +1519,7 @@ void gpppkill::quit_request(void)
 	dibujar_labels_reset();
 
 	if(dialog_window != NULL)
-		gtk_signal_emit_by_name(GTK_OBJECT(dialog_window), "delete_event");
+		gtk_signal_emit_by_name(G_OBJECT(dialog_window), "delete_event");
 }
 
 //------------------------------------------------------------------------------
@@ -1688,8 +1678,8 @@ int gpppkill::status(char *str, int mode)
 		break;
 		case SBAR_TIMEOUT:
 			sbar_index = gtk_statusbar_push(GTK_STATUSBAR(frame_status), SBAR_CONTEXT_TIMEOUT, str);
-			status_timeout_id = gtk_timeout_add(SBAR_INTERVALO,
-	  	    	           				    (GtkFunction) gpppkill_status_timeout_callback,
+			status_timeout_id = g_timeout_add(SBAR_INTERVALO,
+	  	    	           				    (GSourceFunc) gpppkill_status_timeout_callback,
 	    		  	                		this);
 			tmp = sbar_index;
 		break;
@@ -1776,7 +1766,7 @@ void gpppkill::set_width(int new_w)
 	return;
 	if(new_w != w) {
 		w = new_w;
-		gtk_widget_set_usize(window, -1, w+4);
+		gtk_widget_set_size_request(window, -1, w+4);
 	}
 }
 
@@ -1791,11 +1781,11 @@ void gpppkill::configure_size(int new_w, int new_h)
 		w = new_w;
 		h = new_h;
 		//g_print("window size: actual(%dx%d) req(%d)\n", w, h, (DRAW_ANCHO+4) + (2*CONTAINER_ANCHO));
-		//gtk_widget_set_usize(window, (DRAW_ANCHO+4) + (2*CONTAINER_ANCHO), -1);
-		gtk_widget_set_usize(window, w, -1); // allow vertical shrink
+		//gtk_widget_set_size_request(window, (DRAW_ANCHO+4) + (2*CONTAINER_ANCHO), -1);
+		gtk_widget_set_size_request(window, w, -1); // allow vertical shrink
 		gtk_widget_size_request(frame_stats, &rq);
 		//g_print("frame_stats: %dx%d\n", rq.width, rq.height);
-		gtk_widget_set_usize(frame_stats, -1, rq.height+4);	// allow horizontal shrink
+		gtk_widget_set_size_request(frame_stats, -1, rq.height+4);	// allow horizontal shrink
 	}
 }
 
@@ -1847,14 +1837,14 @@ gint gpppkill_timeout_callback(gpppkill *gpppk)
 			break;
 			case 1:	//salir por causa de la opcion idletime
 				if(gpppk->warning_window(pppkill_error)) {
-					//gtk_check_menu_item_set_state(GTK_CHECK_MENU_ITEM(gpppk->getidletime_menuitem()), gtk_false());
+					//gtk_check_menu_item_set_state(GTK_CHECK_MENU_ITEM(gpppk->getidletime_menuitem()), FALSE);
 					gpppk->xkill_pppd();
 					return TRUE;
 				}
 			break;
 			case 2:	//salir por causa de la opcion onlinetime
 				if(gpppk->warning_window(pppkill_error)) {
-					//gtk_check_menu_item_set_state(GTK_CHECK_MENU_ITEM(gpppk->getonlinetime_menuitem()), gtk_false());
+					//gtk_check_menu_item_set_state(GTK_CHECK_MENU_ITEM(gpppk->getonlinetime_menuitem()), FALSE);
 					gpppk->xkill_pppd();
 					return TRUE;
 				}
@@ -1920,20 +1910,20 @@ gint gpppkill_timeout_callback(gpppkill *gpppk)
 			break;
 			case 1:
 				gpppk->setidletime_corriendo(0);
-				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getidletime_menuitem()), gtk_false());
+				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getidletime_menuitem()), FALSE);
 				gpppk->message_box_window("idle_time:\nYou are not the owner/group(member of the group) of this pppd.\nYou wouldn't be able to kill this ppp link.");
 			break;
 			case 2:
 				gpppk->setonlinetime_corriendo(0);
-				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getonlinetime_menuitem()), gtk_false());
+				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getonlinetime_menuitem()), FALSE);
 				gpppk->message_box_window("online_time:\nYou are not the owner/group(member of the group) of this pppd.\nYou wouldn't be able to kill this ppp link.");
 			break;
 			case 3:
 				gpppk->setidletime_corriendo(0);
-				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getidletime_menuitem()), gtk_false());
+				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getidletime_menuitem()), FALSE);
 				gpppk->message_box_window("idle_time:\nYou are not the owner/group(member of the group) of this pppd.\nYou wouldn't be able to kill this ppp link.");
 				gpppk->setonlinetime_corriendo(0);
-				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getonlinetime_menuitem()), gtk_false());
+				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gpppk->getonlinetime_menuitem()), FALSE);
 				gpppk->message_box_window("online_time:\nYou are not the owner/group(member of the group) of this pppd.\nYou wouldn't be able to kill this ppp link.");
 			break;
 		};
@@ -2131,7 +2121,7 @@ gint gpppkill_idletime_menuitem_pressed_callback(GtkCheckMenuItem *item, gpppkil
 	if(gpppk->getpppd_ok()) {
 		res =	gpppk->setidletime_corriendo(GTK_CHECK_MENU_ITEM(item)->active);
 		if(res) {
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), gtk_false());
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), FALSE);
 			gpppk->message_box_window("idle_time:\nYou are not the owner/group(member of the group) of this pppd.\nYou wouldn't be able to kill this ppp link.");
 		}
 	}
@@ -2153,7 +2143,7 @@ gint gpppkill_onlinetime_menuitem_pressed_callback(GtkCheckMenuItem *item, gpppk
 	if(gpppk->getpppd_ok()) {
 		res =	gpppk->setonlinetime_corriendo(GTK_CHECK_MENU_ITEM(item)->active);
 		if(res) {
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), gtk_false());
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), FALSE);
 			gpppk->message_box_window("online_time:\nYou are not the owner/group(member of the group) of this pppd.\nYou wouldn't be able to kill this ppp link.");
 		}
 	}

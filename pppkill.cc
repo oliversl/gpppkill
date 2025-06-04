@@ -929,8 +929,8 @@ int pppkill::find_interface_pid(pid_t pid, char *iface)
 
 			fp = fopen(dir_entry->d_name, "r");
 			if(fp == NULL) {
-				cerr << "pppkill::find_interface_pid(): no se puede leer el archivo '" << dir_entry->d_name << "'" << endl;
-				cerr << "Esto se deberia poder hacer!" << endl;
+                                std::cerr << "pppkill::find_interface_pid(): no se puede leer el archivo '" << dir_entry->d_name << "'" << std::endl;
+                                std::cerr << "Esto se deberia poder hacer!" << std::endl;
 				exit(1);
 			}
 			fscanf(fp, "%d", &run_pid);

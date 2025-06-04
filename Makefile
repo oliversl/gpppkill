@@ -2,13 +2,12 @@
 # 
 # Use DESTDIR when installing to another prefix directory
 
-# Redhat 6.x
-CC	= g++
-CFLAGS  = -Wall -g -Wno-unused -DGTK_DISABLE_COMPAT_H #-pedantic  
-# no hace falta sacar la opcion -g porque uso 'install -s'
-#CFLAGS  = -Wall -Wno-unused -DGTK_DISABLE_COMPAT_H
-INCLUDE = `gtk-config --cflags`
-LIBS    = `gtk-config --libs`
+# Modern toolchain
+CC      = g++
+CFLAGS  = -Wall -g -Wno-unused -DGTK_DISABLE_COMPAT_H
+# Use pkg-config to obtain GTK flags
+INCLUDE = $(shell pkg-config --cflags gtk+-2.0)
+LIBS    = $(shell pkg-config --libs gtk+-2.0)
 DESTDIR  = /
 BINDIR  = ${DESTDIR}/usr/X11R6/bin
 

@@ -27,6 +27,10 @@
  */
 #include "messagebox.h"
 
+// Forward declarations for signal callbacks
+gint messagebox_clicked_callback(GtkButton *button, class messagebox *mbox);
+gint messagebox_delete_event_callback(GtkWidget *widget, GdkEventAny *event, class messagebox *mbox);
+
 messagebox::messagebox(char *str, class gpppkill	*g)
 {
 	cad = str;

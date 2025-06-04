@@ -378,7 +378,7 @@ int rcgpppkill::load_version(char *ver)
 	strcpy(ver, load_string_option("VERSION"));
 
 	if(ver[0] == '#') {
-		cout << "rcgpppkill::load_version(): no existe la entrada VERSION en ~/.gpppkillrc" << endl;
+                std::cout << "rcgpppkill::load_version(): no existe la entrada VERSION en ~/.gpppkillrc" << std::endl;
 		return 1;
 	}
 

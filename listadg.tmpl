@@ -42,7 +42,7 @@ template <class T> nododg<T>::nododg()
 	anterior=NULL;
 
 	if(DEBUG_LISTADG)
-		cout << "Constructor  nododg()\n";  	
+            std::cout << "Constructor  nododg()\n";
 }
 
 /*
@@ -51,7 +51,7 @@ template <class T> nododg<T>::nododg()
 template <class T> nododg<T>::~nododg()
 {
 	if(DEBUG_LISTADG) 
-		cout << "nododg borrado" << endl;
+            std::cout << "nododg borrado" << std::endl;
 }
 
 template <class T> nododg<T> nododg<T>::operator=(nododg<T> n)
@@ -77,7 +77,7 @@ template <class T> listadg<T>::listadg()
 	final=NULL;
 
 	if(DEBUG_LISTADG)
-		cout << "Constructor listadg()\n";
+            std::cout << "Constructor listadg()\n";
 }
 
 /*------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ template <class T> listadg<T>::~listadg()
 	borrar_listadg();
 
 	if(DEBUG_LISTADG)
-		cout << "Destructor listadg()\n";
+            std::cout << "Destructor listadg()\n";
 }
 
 //------------------------------------------------------------------------------

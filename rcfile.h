@@ -28,7 +28,7 @@
 #ifndef _RCFILE_HPP_OSL_
 #define _RCFILE_HPP_OSL_
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

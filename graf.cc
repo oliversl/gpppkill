@@ -416,12 +416,12 @@ void graf::dibujar(void)
 	double es, in;
 	es = escala;
 	in = incremento_escala;
-	cout << endl;
-	cout << "int  numero de lineas: " << (float)(escala/incremento_escala) << endl;
-	cout << "ceil numero de lineas: " << ceil(es/in) << endl;
-	cout << "int (separacion de lineas)  : " << altura_in << endl;
-	cout << "ceil(separacion de lineas)  : " << ceil((float)(gpppk->DRAW_ALTO / (es/in))) << endl;
-	cout << "ceil(separacion de lineas)  : " << ceil(gpppk->DRAW_ALTO / (es/in)) << endl;
+        std::cout << std::endl;
+        std::cout << "int  numero de lineas: " << (float)(escala/incremento_escala) << std::endl;
+        std::cout << "ceil numero de lineas: " << ceil(es/in) << std::endl;
+        std::cout << "int (separacion de lineas)  : " << altura_in << std::endl;
+        std::cout << "ceil(separacion de lineas)  : " << ceil((float)(gpppk->DRAW_ALTO / (es/in))) << std::endl;
+        std::cout << "ceil(separacion de lineas)  : " << ceil(gpppk->DRAW_ALTO / (es/in)) << std::endl;
 	//altura_in = (int)ceil((float)(gpppk->DRAW_ALTO / (es/in)));
 }*/
 	/*
@@ -660,7 +660,7 @@ gint graf_configure_event_callback(GtkWidget *widget, GdkEventConfigure *event, 
 				  														widget->allocation.height,
 				  														-1);
 		if(tmp_pix == NULL) {	//si no lo pude crear
-			cerr << "gpppkill_configure_event_callback: no hay memoria!" << endl;
+                        std::cerr << "gpppkill_configure_event_callback: no hay memoria!" << std::endl;
 			return FALSE;
 		}
 		grafico->pixmap =(GdkPixmap *)tmp_pix;	//guardar en graf::pixmap
@@ -680,7 +680,7 @@ gint graf_configure_event_callback(GtkWidget *widget, GdkEventConfigure *event, 
 				  														widget->allocation.height,
 				  														-1);
 			if(grafico->pix == NULL) {
-				cerr << "gpppkill_configure_event_callback(): no hay memoria!" << endl;
+                                std::cerr << "gpppkill_configure_event_callback(): no hay memoria!" << std::endl;
 				return FALSE;
 			}
 		}

@@ -28,7 +28,7 @@
 #ifndef _LISTAC_OSL_HPP
 #define _LISTAC_OSL_HPP
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 
 /*

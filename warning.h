@@ -28,7 +28,7 @@
 #ifndef _WARNING_OSL_H_
 #define _WARNING_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h> // GDK_Escape
@@ -66,7 +66,7 @@ class warning : public dialog {
 		friend gint warning_ok_callback(GtkButton *button, warning *w);
 		friend gint warning_cancel_callback(GtkButton *button, warning *w);
 		friend gboolean warning_key_callback(GtkWidget *widget, GdkEventKey *event, warning *w);
-		friend gint warning_timeout_callback(warning *w);
+                friend gint warning_timeout_callback(gpointer w);
 
 	public:
 		warning(class gpppkill *g, int opcion);

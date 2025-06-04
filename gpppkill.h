@@ -28,7 +28,7 @@
 #ifndef	_GPPPKILL_HPP_OSL_
 #define _GPPPKILL_HPP_OSL_
 
-#include <iostream.h>
+#include <iostream>
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>

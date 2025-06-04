@@ -26,6 +26,13 @@
  *  A copy of the GNU General Public License is included with this program.
  */
 #include "warning.h"
+
+// Forward declarations for signal callbacks
+gint warning_delete_event_callback(GtkWidget *widget, GdkEventAny *event, warning *w);
+gint warning_ok_callback(GtkButton *button, warning *w);
+gint warning_cancel_callback(GtkButton *button, warning *w);
+gboolean warning_key_callback(GtkWidget *widget, GdkEventKey *event, warning *w);
+gint warning_timeout_callback(gpointer w);
 // ############################# class warning #############################
 
 /*------------------------------------------------------------------------------
@@ -311,34 +318,35 @@ gboolean warning_key_callback(GtkWidget *widget, GdkEventKey *event, warning *w)
 
 /*------------------------------------------------------------------------------
  */
-gint warning_timeout_callback(warning *w)
+gint warning_timeout_callback(gpointer w)
 {
-	gfloat val;
-	int beep;
-  GtkAdjustment *adj;
+        warning *warn = static_cast<warning*>(w);
+        gfloat val;
+        int beep;
+        GtkAdjustment *adj;
 /*
 	static long tiempo = 0;
 	static char str[30];
 	
-	tiempo += w->intervalo;	//aumentar un intervalo mas hasta que sea multiplo de 1000, osea 1 seg.
+	tiempo += warn->intervalo;	//aumentar un intervalo mas hasta que sea multiplo de 1000, osea 1 seg.
 
 
 	g_print("timepo: %ld\n", tiempo);
 	if( !(tiempo%1000) ) {
-		sprintf(str, "seconds left: %d", ((w->tiempo_total)-(int)tiempo)/1000);
-		gtk_label_set(GTK_LABEL(w->label_time), str);
+		sprintf(str, "seconds left: %d", ((warn->tiempo_total)-(int)tiempo)/1000);
+		gtk_label_set(GTK_LABEL(warn->label_time), str);
 		gdk_beep();
 		//g_print("quedan: %d segundos\n", (w->tiempo_total)-(int)tiempo);
 	}
 */
 
-  adj = GTK_PROGRESS(w->pbar)->adjustment;
+  adj = GTK_PROGRESS(warn->pbar)->adjustment;
   val = adj->value;
-	//val = GTK_PROGRESS_BAR(w->pbar)->percentage;
+	//val = GTK_PROGRESS_BAR(warn->pbar)->percentage;
 	
 	//g_print("val: %f\n", val);
 
-	if(w->warn_beep) {
+	if(warn->warn_beep) {
 		//beep = (int)(val*WARNING_PBAR_PASOS);
 		beep = (int)(val);
 		beep++;
@@ -348,15 +356,15 @@ gint warning_timeout_callback(warning *w)
 	
 	//if(val < 1.0) {
 	if(val < adj->upper) {
-		//val += (w->incremento);
+                //val += (warn->incremento);
 		val++;
-		//gtk_progress_bar_update(GTK_PROGRESS_BAR(w->pbar), val);
-		gtk_progress_set_value (GTK_PROGRESS(w->pbar), val);
+		//gtk_progress_bar_update(GTK_PROGRESS_BAR(warn->pbar), val);
+		gtk_progress_set_value (GTK_PROGRESS(warn->pbar), val);
 		return TRUE;
 	}
 	else {
-		w->resultado = 1;
-		w->quit();
+		warn->resultado = 1;
+                warn->quit();
 		//return FALSE;	//remuevo el timeout
 		return TRUE;	//no remuevo el timeout
 	}

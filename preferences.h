@@ -28,7 +28,7 @@
 #ifndef	_PREFERENCES_HPP_OSL_
 #define _PREFERENCES_HPP_OSL_
 
-#include <iostream.h>
+#include <iostream>
 #include <gtk/gtk.h>
 
 #include "gpppkill_config.h"

@@ -28,7 +28,7 @@
 #ifndef _LISTADG_OSL_H_
 #define _LISTADG_OSL_H_
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <string.h>
 

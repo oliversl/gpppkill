@@ -32,6 +32,7 @@
 using namespace std;
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include "compat.h"
 #include <gdk/gdkkeysyms.h> // GDK_Escape
 #include <sys/types.h>
 

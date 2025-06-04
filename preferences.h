@@ -31,6 +31,7 @@
 #include <iostream>
 using namespace std;
 #include <gtk/gtk.h>
+#include "compat.h"
 
 #include "gpppkill_config.h"
 #include "dialog.h"

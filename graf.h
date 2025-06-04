@@ -36,6 +36,9 @@
 #include "gpppkill_config.h"
 #include "gpppkill.h"
 
+extern "C" gint graf_expose_event_callback(GtkWidget *widget, GdkEventExpose *event, class graf *grafico);
+extern "C" gint graf_configure_event_callback(GtkWidget *widget, GdkEventConfigure *event, class graf *grafico);
+
 class graf {
 	private:
 		int x,							//posicion a dibujar la sigte barra

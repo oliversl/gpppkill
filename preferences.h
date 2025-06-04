@@ -36,6 +36,22 @@
 
 #include "gpppkill.h"
 
+extern "C" gint preferences_ok_callback(GtkButton *button, class preferences *pref);
+extern "C" gint preferences_cancel_callback(GtkButton *button, class preferences *pref);
+extern "C" gint preferences_idletime_callback(GtkEditable *editable, class preferences *pref);
+extern "C" gint preferences_onlinetime_callback(GtkEditable *editable, class preferences *pref);
+extern "C" gint preferences_byte_in_callback(GtkEditable *editable, class preferences *pref);
+extern "C" gint preferences_byte_out_callback(GtkEditable *editable, class preferences *pref);
+extern "C" gint preferences_idletime_button_callback(GtkToggleButton *toggle_button, class preferences *pref);
+extern "C" gint preferences_onlinetime_button_callback(GtkToggleButton *toggle_button, class preferences *pref);
+extern "C" gint preferences_spinner_prefered_callback(GtkEditable *editable, class preferences *pref);
+extern "C" gint preferences_refresh_callback(GtkButton *button, class preferences *pref);
+extern "C" gint preferences_select_row_callback(GtkWidget *widget, gint row, gint column, GdkEventButton *event, class preferences *pref);
+extern "C" gint preferences_delete_event_callback(GtkWidget *widget, GdkEventAny *event, class preferences *pref);
+extern "C" gint preferences_button_option_warn_callback(GtkToggleButton *toggle_button, class preferences *pref);
+extern "C" gint preferences_spinner_warntime_callback(GtkEditable *editable, class preferences *pref);
+extern "C" gint preferences_button_warn_beep_callback(GtkToggleButton *toggle_button, class preferences *pref);
+
 //----------- class preferences --------------------
 class preferences : public dialog {
 	private:

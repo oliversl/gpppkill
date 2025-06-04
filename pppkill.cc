@@ -320,7 +320,7 @@ int pppkill::cargar_lista_pppd(void)
 	pid_t pid_pppd;
   FILE 	  *fp_cmdline;
   DIR     *dp;
-  umode_t mode;
+  mode_t mode;
   struct dirent *dir_entry;
   struct stat   file_stat;
   pppd nuevo_ppp;
@@ -400,7 +400,7 @@ int pppkill::cargar_lista_chat(void)
 	pid_t pid_chat, ppid_chat;
   FILE 	  *fp_cmdline;
   DIR     *dp;
-  umode_t mode;
+  mode_t mode;
   struct dirent *dir_entry;
   struct stat   file_stat;
   chat nuevo_chat;
